@@ -98,12 +98,18 @@ const data = reactive({
 onMounted(() => {
   // 背景固定
   window.addEventListener('scroll', () => {
-    const bg = document.getElementById('background')
-    const scrollTop = window.scrollY
-    if (scrollTop > 0.7 * window.innerHeight)
-      bg.classList.add('fixed')
-    else
-      bg.classList.remove('fixed')
+    // 只有在不显示留言板且background元素存在时才执行操作
+    if (!showMessageBoard.value) {
+      const bg = document.getElementById('background')
+      if (bg) {
+        const scrollTop = window.scrollY
+        if (scrollTop > 0.7 * window.innerHeight) {
+          bg.classList.add('fixed')
+        } else {
+          bg.classList.remove('fixed')
+        }
+      }
+    }
   })
 })
 </script>
