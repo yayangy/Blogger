@@ -118,26 +118,26 @@ const posts = ref([
     views: 888,
     comments: 88
   },
-  {
-    id: 3,
-    title: '程序员的成长之路：如何持续学习',
-    excerpt: '在技术快速迭代的今天，持续学习能力对程序员至关重要。本文分享了一些有效的学习方法和时间管理技巧...',
-    categoryId: 4,
-    tags: [5],
-    createdAt: '2025-04-28T09:15:00',
-    views: 156,
-    comments: 15
-  },
-  {
-    id: 4,
-    title: '用 CSS Grid 构建响应式布局',
-    excerpt: 'CSS Grid 布局系统为我们提供了强大的二维布局能力。本文通过实例介绍了如何使用 CSS Grid 构建灵活的响应式布局...',
-    categoryId: 2,
-    tags: [3, 6],
-    createdAt: '2025-10-06T16:45:00',
-    views: 124,
-    comments: 6
-  }
+  // {
+  //   id: 3,
+  //   title: '程序员的成长之路：如何持续学习',
+  //   excerpt: '在技术快速迭代的今天，持续学习能力对程序员至关重要。本文分享了一些有效的学习方法和时间管理技巧...',
+  //   categoryId: 4,
+  //   tags: [5],
+  //   createdAt: '2025-04-28T09:15:00',
+  //   views: 156,
+  //   comments: 15
+  // },
+  // {
+  //   id: 4,
+  //   title: '用 CSS Grid 构建响应式布局',
+  //   excerpt: 'CSS Grid 布局系统为我们提供了强大的二维布局能力。本文通过实例介绍了如何使用 CSS Grid 构建灵活的响应式布局...',
+  //   categoryId: 2,
+  //   tags: [3, 6],
+  //   createdAt: '2025-10-06T16:45:00',
+  //   views: 124,
+  //   comments: 6
+  // }
 ])
 
 // 当前激活的分类

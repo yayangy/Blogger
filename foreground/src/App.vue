@@ -22,16 +22,16 @@ const checkUrlHash = () => {
   showAdminPanel.value = false
   showBlogHome.value = false
   showBlogPostDetail.value = false
-  
+
   // 检查URL hash
   const hash = window.location.hash
-  
+
   // 安全地检查认证状态
   let isAuthenticated = false
   if (typeof localStorage !== 'undefined') {
     isAuthenticated = localStorage.getItem('adminAuthenticated') === 'true'
   }
-  
+
   if ((hash === '#admin-panel' || hash === '#dashboard' || hash === '#messages' || hash === '#settings') && isAuthenticated) {
     showAdminPanel.value = true
   } else if (hash === '#admin-dashboard' || showAdminDashboard.value) {
@@ -95,18 +95,18 @@ const data = reactive({
     description: '留下您的想法和建议',
     link: '#message-board',
   }, {
-    name: 'Blog',
-    description: '个人博客，学习&随笔',
+    name: '文章',
+    description: '写的不是很好',
     link: '#blog',
   }, {
-    name: 'Brain',
-    description: '知识库、第二大脑',
-    link: 'https://github.com/sun0225SUN/brain',
+    name: '第一个',
+    description: 'github的项目',
+    link: 'https://github.com/yayangy/html',
   }, {
-    name: 'Camera',
-    description: '摄影相册',
-    link: 'https://github.com/sun0225SUN/camera',
-  }, {
+    name: '博客',
+    description: '还在施工',
+    link: 'https://github.com/yayangy/Blogger',
+  }, /*{
     name: 'Camera Tools',
     description: '摄影工具箱',
     link: 'https://github.com/sun0225SUN/camera-tools',
@@ -126,11 +126,11 @@ const data = reactive({
     name: 'Starter',
     description: '前端项目起手架模版',
     link: 'https://github.com/sun0225SUN/starter',
-  }],
+  }*/],
 
   socialLinks: [{
     icon: '<i i-ant-design-github-outlined />',
-    link: 'https://github.com/sun0225SUN',
+    link: 'https://github.com/yayangy',
     label: 'Github',
   }, {
     icon: '<i i-ant-design-x-outlined />',
@@ -138,11 +138,11 @@ const data = reactive({
     label: 'Twitter',
   }, {
     icon: '<i i-ant-design-youtube-outlined />',
-    link: 'https://youtube.com/@sun0225SUN',
+    link: 'https://www.youtube.com/@%E9%9B%BE%E5%8C%96%E9%B9%B0',
     label: 'YouTube',
   }, {
     icon: '<i i-ant-design-bilibili-outlined />',
-    link: 'https://space.bilibili.com/448488855/',
+    link: 'https://space.bilibili.com/421374901',
     label: 'Bilibili',
   }],
 })
@@ -169,16 +169,16 @@ onMounted(() => {
 <template>
   <!-- 如果显示留言板，渲染留言板组件 -->
   <MessageBoard v-if="showMessageBoard" @back-to-home="showMessageBoard = false" />
-  
+
   <!-- 如果显示后台管理面板，渲染后台管理面板组件 -->
   <AdminPanel v-else-if="showAdminPanel" />
-  
+
   <!-- 如果显示后台登录，渲染后台登录组件 -->
   <AdminDashboard v-else-if="showAdminDashboard" />
-  
+
   <!-- 如果显示博客主页，渲染博客主页组件 -->
   <BlogHome v-else-if="showBlogHome" />
-  
+
   <!-- 如果显示博客文章详情，渲染文章详情组件 -->
   <BlogPostDetail v-else-if="showBlogPostDetail" />
 
@@ -187,23 +187,23 @@ onMounted(() => {
     <!-- 导航 -->
     <nav absolute fixed bottom-4 left-4 z-20>
       <div v-for="(item, index) in data.navLinks" :key="index" my-6 text-3 text-white wv>
-        <a 
-          v-if="item.name !== '后 台'" 
-          :href="item.link" 
+        <a
+          v-if="item.name !== '后 台'"
+          :href="item.link"
           opacity-75 text-white tracking-widest hover:opacity-100
         >
           {{ item.name }}
         </a>
-        <a 
-          v-else 
-          href="#admin-dashboard" 
+        <a
+          v-else
+          href="#admin-dashboard"
           @click.prevent="() => {
             // 清除认证状态，确保用户重新验证
             if (typeof localStorage !== 'undefined') {
               localStorage.removeItem('adminAuthenticated')
             }
             showAdminDashboard = true
-          }" 
+          }"
           opacity-75 text-white tracking-widest hover:opacity-100
         >
           {{ item.name }}
@@ -236,22 +236,22 @@ onMounted(() => {
       <div mx-10 mb-10 flex justify-between>
         <div class="text-white/80">
           <p leading-10>
-            嗨，你好，我是aaaaa。
+            嗨，你好，这是我的个人博客
           </p>
           <p leading-10>
-            热爱编程、摄影、读书、旅行。
+            内容很少正在施工中。
           </p>
           <p leading-10>
-            热爱计算机科学和 IT 互联网事业，希望能成为一名优秀的开发者。
+            目前可能就一个留言板和文章管理。
           </p>
           <p leading-10>
-            我们正在让这个世界变得更加美好，通过代码的重复使用和延展构建完美体系。
+            之后慢慢施工。
           </p>
           <p leading-10>
-            We're making the world a better place. Through constructing elegant hierarchies for maximum code reuse and extensibility.
+            阿里云的服务器还能用很久.
           </p>
         </div>
-        <img hidden rounded-full h-25 w-25 transition md:block hover:-translate-y--2 src="./assets/images/avatar.webp" alt="avatar">
+        <img hidden rounded-full h-25 w-25 transition md:block hover:-translate-y--2 src="./assets/images/100.png" alt="avatar">
       </div>
 
       <!-- 我的技能 -->
