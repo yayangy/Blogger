@@ -53,10 +53,37 @@ const handleProjectClick = (link) => {
   window.location.hash = link
 }
 
-// 组件挂载时检查hash
+// 组件挂载时检查hash和加载Live2D脚本
 onMounted(() => {
   checkUrlHash()
-} )
+  
+  // 动态加载Live2D脚本
+  try {
+    const script = document.createElement('script')
+    script.src = 'https://fastly.jsdelivr.net/npm/live2d-widgets@1.0.0-rc.7/dist/autoload.js'
+    script.async = true
+    document.head.appendChild(script)
+    console.log('Live2D脚本已添加')
+  } catch (error) {
+    console.error('加载Live2D脚本时出错:', error)
+  }
+  
+  // 背景固定
+  window.addEventListener('scroll', () => {
+    // 只有在不显示留言板且background元素存在时才执行操作
+    if (!showMessageBoard.value) {
+      const bg = document.getElementById('background')
+      if (bg) {
+        const scrollTop = window.scrollY
+        if (scrollTop > 0.7 * window.innerHeight) {
+          bg.classList.add('fixed')
+        } else {
+          bg.classList.remove('fixed')
+        }
+      }
+    }
+  })
+})
 
 const data = reactive({
   titleList: [
@@ -147,27 +174,12 @@ const data = reactive({
   }],
 })
 
-onMounted(() => {
-  // 背景固定
-  window.addEventListener('scroll', () => {
-    // 只有在不显示留言板且background元素存在时才执行操作
-    if (!showMessageBoard.value) {
-      const bg = document.getElementById('background')
-      if (bg) {
-        const scrollTop = window.scrollY
-        if (scrollTop > 0.7 * window.innerHeight) {
-          bg.classList.add('fixed')
-        } else {
-          bg.classList.remove('fixed')
-        }
-      }
-    }
-  })
-})
+
 </script>
 
 <template>
-  <!-- 如果显示留言板，渲染留言板组件 -->
+
+    <!-- 如果显示留言板，渲染留言板组件 -->
   <MessageBoard v-if="showMessageBoard" @back-to-home="showMessageBoard = false" />
 
   <!-- 如果显示后台管理面板，渲染后台管理面板组件 -->
