@@ -24,11 +24,15 @@ export default defineConfig({
     },
   },
   server: {
+    host: '0.0.0.0',
+    // 明确列出允许的主机名，包括内网穿透地址
+    allowedHosts: ['localhost', 'frp-shy.com', '050516.xyz', 'frp-pen.com'],
     open: true,
     proxy: {
       '/api': {
         target: 'http://localhost:8080',
-        changeOrigin: true
+        changeOrigin: true,
+        secure: false
       }
     }
   },
