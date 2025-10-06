@@ -3,8 +3,45 @@
 import { onMounted, reactive, ref } from 'vue'
 import StarTrails from './components/StarTrails.vue'
 import MessageBoard from './components/MessageBoard.vue'
+import AdminDashboard from './components/AdminDashboard.vue'
+import AdminPanel from './components/AdminPanel.vue'
 
 const showMessageBoard = ref(false)
+const showAdminDashboard = ref(false)
+const showAdminPanel = ref(false)
+
+// 检查URL hash和认证状态来决定显示哪个组件
+const checkUrlHash = () => {
+  // 清除所有状态
+  showMessageBoard.value = false
+  showAdminDashboard.value = false
+  showAdminPanel.value = false
+  
+  // 检查URL hash
+  const hash = window.location.hash
+  
+  // 安全地检查认证状态
+  let isAuthenticated = false
+  if (typeof localStorage !== 'undefined') {
+    isAuthenticated = localStorage.getItem('adminAuthenticated') === 'true'
+  }
+  
+  if ((hash === '#admin-panel' || hash === '#dashboard' || hash === '#messages' || hash === '#settings') && isAuthenticated) {
+    showAdminPanel.value = true
+  } else if (hash === '#admin-dashboard' || showAdminDashboard.value) {
+    showAdminDashboard.value = true
+  } else if (hash === '#message-board') {
+    showMessageBoard.value = true
+  }
+}
+
+// 监听URL hash变化
+window.addEventListener('hashchange', checkUrlHash)
+
+// 组件挂载时检查hash
+onMounted(() => {
+  checkUrlHash()
+} )
 
 const data = reactive({
   titleList: [
@@ -34,7 +71,7 @@ const data = reactive({
     name: '运 动',
     link: 'https://bicycling.sunguoqi.com',
   }, {
-    name: '留 言',
+    name: '后 台',
     link: 'https://blog.sunguoqi.com/comments',
   }],
 
@@ -117,13 +154,37 @@ onMounted(() => {
 <template>
   <!-- 如果显示留言板，渲染留言板组件 -->
   <MessageBoard v-if="showMessageBoard" @back-to-home="showMessageBoard = false" />
+  
+  <!-- 如果显示后台管理面板，渲染后台管理面板组件 -->
+  <AdminPanel v-else-if="showAdminPanel" />
+  
+  <!-- 如果显示后台登录，渲染后台登录组件 -->
+  <AdminDashboard v-else-if="showAdminDashboard" />
 
-  <!-- 如果不显示留言板，渲染原来的主页内容 -->
+  <!-- 如果不显示留言板、后台管理面板和后台登录，渲染原来的主页内容 -->
   <div v-else>
     <!-- 导航 -->
     <nav absolute fixed bottom-4 left-4 z-20>
       <div v-for="(item, index) in data.navLinks" :key="index" my-6 text-3 text-white wv>
-        <a :href="item.link" opacity-75 text-white tracking-widest hover:opacity-100>
+        <a 
+          v-if="item.name !== '后 台'" 
+          :href="item.link" 
+          opacity-75 text-white tracking-widest hover:opacity-100
+        >
+          {{ item.name }}
+        </a>
+        <a 
+          v-else 
+          href="#admin-dashboard" 
+          @click.prevent="() => {
+            // 清除认证状态，确保用户重新验证
+            if (typeof localStorage !== 'undefined') {
+              localStorage.removeItem('adminAuthenticated')
+            }
+            showAdminDashboard = true
+          }" 
+          opacity-75 text-white tracking-widest hover:opacity-100
+        >
           {{ item.name }}
         </a>
       </div>

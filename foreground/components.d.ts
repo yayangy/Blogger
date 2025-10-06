@@ -7,6 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AdminDashboard: typeof import('./src/components/AdminDashboard.vue')['default']
+    AdminMessageBoard: typeof import('./src/components/AdminMessageBoard.vue')['default']
+    AdminPanel: typeof import('./src/components/AdminPanel.vue')['default']
     MessageBoard: typeof import('./src/components/MessageBoard.vue')['default']
     StarTrails: typeof import('./src/components/StarTrails.vue')['default']
   }
