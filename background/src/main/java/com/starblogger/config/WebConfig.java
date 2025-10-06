@@ -20,7 +20,9 @@ public class WebConfig {
                                 "http://127.0.0.1:5173",
                                 "http://localhost:4173",
                                 "http://47.98.137.119:5173",
+                                "https://050516.xyz/",
                                 "http://127.0.0.1:4173")
+
 
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")

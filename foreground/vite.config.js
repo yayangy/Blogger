@@ -1,12 +1,15 @@
-import { URL, fileURLToPath } from 'node:url'
+import { URL } from 'node:url'
 import { defineConfig } from 'vite'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
+import { fileURLToPath } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // 设置为相对路径，确保构建后的文件在服务器上能正确加载静态资源
+  base: './',
   plugins: [
     vue(),
     UnoCSS(),
