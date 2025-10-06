@@ -10,6 +10,8 @@ declare module 'vue' {
     AdminDashboard: typeof import('./src/components/AdminDashboard.vue')['default']
     AdminMessageBoard: typeof import('./src/components/AdminMessageBoard.vue')['default']
     AdminPanel: typeof import('./src/components/AdminPanel.vue')['default']
+    BlogHome: typeof import('./src/components/BlogHome.vue')['default']
+    BlogPostDetail: typeof import('./src/components/BlogPostDetail.vue')['default']
     MessageBoard: typeof import('./src/components/MessageBoard.vue')['default']
     StarTrails: typeof import('./src/components/StarTrails.vue')['default']
   }

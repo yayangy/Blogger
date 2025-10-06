@@ -5,10 +5,14 @@ import StarTrails from './components/StarTrails.vue'
 import MessageBoard from './components/MessageBoard.vue'
 import AdminDashboard from './components/AdminDashboard.vue'
 import AdminPanel from './components/AdminPanel.vue'
+import BlogHome from './components/BlogHome.vue'
+import BlogPostDetail from './components/BlogPostDetail.vue'
 
 const showMessageBoard = ref(false)
 const showAdminDashboard = ref(false)
 const showAdminPanel = ref(false)
+const showBlogHome = ref(false)
+const showBlogPostDetail = ref(false)
 
 // 检查URL hash和认证状态来决定显示哪个组件
 const checkUrlHash = () => {
@@ -16,6 +20,8 @@ const checkUrlHash = () => {
   showMessageBoard.value = false
   showAdminDashboard.value = false
   showAdminPanel.value = false
+  showBlogHome.value = false
+  showBlogPostDetail.value = false
   
   // 检查URL hash
   const hash = window.location.hash
@@ -32,11 +38,20 @@ const checkUrlHash = () => {
     showAdminDashboard.value = true
   } else if (hash === '#message-board') {
     showMessageBoard.value = true
+  } else if (hash === '#blog' || hash === '#blog-home') {
+    showBlogHome.value = true
+  } else if (hash.startsWith('#blog/post/')) {
+    showBlogPostDetail.value = true
   }
 }
 
 // 监听URL hash变化
 window.addEventListener('hashchange', checkUrlHash)
+
+// 处理项目链接点击
+const handleProjectClick = (link) => {
+  window.location.hash = link
+}
 
 // 组件挂载时检查hash
 onMounted(() => {
@@ -82,7 +97,7 @@ const data = reactive({
   }, {
     name: 'Blog',
     description: '个人博客，学习&随笔',
-    link: 'https://github.com/sun0225SUN/blog',
+    link: '#blog',
   }, {
     name: 'Brain',
     description: '知识库、第二大脑',
@@ -160,8 +175,14 @@ onMounted(() => {
   
   <!-- 如果显示后台登录，渲染后台登录组件 -->
   <AdminDashboard v-else-if="showAdminDashboard" />
+  
+  <!-- 如果显示博客主页，渲染博客主页组件 -->
+  <BlogHome v-else-if="showBlogHome" />
+  
+  <!-- 如果显示博客文章详情，渲染文章详情组件 -->
+  <BlogPostDetail v-else-if="showBlogPostDetail" />
 
-  <!-- 如果不显示留言板、后台管理面板和后台登录，渲染原来的主页内容 -->
+  <!-- 如果不显示留言板、后台管理面板、后台登录和博客相关页面，渲染原来的主页内容 -->
   <div v-else>
     <!-- 导航 -->
     <nav absolute fixed bottom-4 left-4 z-20>
@@ -244,9 +265,9 @@ onMounted(() => {
       </div>
       <div mb-10 flex flex-wrap justify-between>
         <div v-for="(item, index) in data.myProjects" :key="index" mx-10 my-4 class="basis-3/4 md:basis-1/6">
-          <div v-if="item.link !== '#message-board'">
-            <a :href="item.link">
-              <div class="bg-white/5 hover:bg-white/10" p-2 rounded-lg shadow-md flex-col transition backdrop-blur-3xl backdrop-opacity-60 hover:backdrop-opacity-100 hover:-translate-y-2>
+          <div v-if="item.link.startsWith('#')">
+            <a :href="item.link" @click.prevent="handleProjectClick(item.link)">
+              <div class="bg-white/5 hover:bg-white/10 p-2 rounded-lg shadow-md flex-col transition backdrop-blur-3xl backdrop-opacity-60 hover:backdrop-opacity-100 hover:-translate-y-2">
                 <div text-bold opacity-75 text-white>
                   {{ item.name }}
                 </div>
@@ -256,14 +277,18 @@ onMounted(() => {
               </div>
             </a>
           </div>
-          <div v-else @click="showMessageBoard = true" class="cursor-pointer bg-white/5 hover:bg-white/10" p-2 rounded-lg shadow-md flex-col transition backdrop-blur-3xl backdrop-opacity-60 hover:backdrop-opacity-100 hover:-translate-y-2>
-              <div text-bold opacity-75 text-white>
-                {{ item.name }}
+          <div v-else>
+            <a :href="item.link" target="_blank">
+              <div class="bg-white/5 hover:bg-white/10 p-2 rounded-lg shadow-md flex-col transition backdrop-blur-3xl backdrop-opacity-60 hover:backdrop-opacity-100 hover:-translate-y-2">
+                <div text-bold opacity-75 text-white>
+                  {{ item.name }}
+                </div>
+                <div mt-1 opacity-50 text-3 text-white>
+                  {{ item.description }}
+                </div>
               </div>
-              <div mt-1 opacity-50 text-3 text-white>
-                {{ item.description }}
-              </div>
-            </div>
+            </a>
+          </div>
         </div>
       </div>
 
